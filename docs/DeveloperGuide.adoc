@@ -412,7 +412,7 @@ image::AddTagRemoveTagSequenceDiagram.png[width="800"]
 // tag::dataencryption[]
 === [Proposed] Data Encryption
 
-_{Explain here how the data encryption feature will be implemented}_
+_{We plan on implementing a data encryption feature such that when the user chooses to, the data stored in the addressbook will be encrypted and display ceases to show all information.}_
 
 // end::dataencryption[]
 
