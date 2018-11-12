@@ -23,12 +23,12 @@
         <ColumnConstraints hgrow="SOMETIMES" minWidth="10" prefWidth="50"/>
         <ColumnConstraints hgrow="SOMETIMES" minWidth="10" prefWidth="50"/>
       </columnConstraints>
-      <Label styleClass="cell_big_label" text="   Name"  GridPane.columnIndex="0"/>
+      <Label styleClass="cell_big_label" text="    Name"  GridPane.columnIndex="0"/>
       <Label styleClass="cell_big_label" text="Phone" GridPane.columnIndex="1"/>
       <Label styleClass="cell_big_label" text="Email" GridPane.columnIndex="2"/>
       <Label styleClass="cell_big_label" text="Payment" GridPane.columnIndex="3"/>
       <Label styleClass="cell_big_label" text="Attendance" GridPane.columnIndex="4"/>
-      <Label styleClass="cell_big_label" text="    UID" GridPane.columnIndex="5"/>
+      <Label styleClass="cell_big_label" text="UID" GridPane.columnIndex="5"/>
       <Label styleClass="cell_big_label" text="Tags" GridPane.columnIndex="6"/>
     </GridPane>
   </HBox>

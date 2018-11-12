@@ -23,7 +23,7 @@ To add to these features, by employing a standardised format, the application is
 This eliminates the need to input all the information manually and subsequently, gives you an alternative if you decide to organise another event using the same guest list.
 
 This will give you an easier time while managing the reception at your event as you will be equipped with tools that will minimise errors in catering,
-organisation, and orders. Moreover, this application aims to reduce your frustration while planning events by addressing your needs in a platform that is more user friendly, personalised, and
+organising, and ordering. Moreover, this application aims to reduce your frustration while planning events by addressing your needs in a platform that is more user-friendly, personalised, and
 efficient.
 
 The main purpose of this User Guide is to give you a detailed overview of all the features in our application and how to use them.
@@ -31,11 +31,12 @@ The main purpose of this User Guide is to give you a detailed overview of all th
 == Quick Start
 
 .  Ensure you have Java version `9` or later installed in your Computer.
-.  Download the latest jar file from the GIT repository link:https://github.com/CS2113-AY1819S1-F09-3/main[here].
+.  Download the latest jar file from the GIT repository link:https://github.com/CS2113-AY1819S1-F09-3/main/releases[here].
 .  Place the jar file where your home directory resides
 .  Double click on the jar file and wait a couple of seconds as the application loads. If you're successful, a main screen will load
    similar to the one shown below:
 +
+.Invités
 image::Ui.png[width="790"]
 +
 .  As the Command Line Input is your primary method of manipulation, here are some
@@ -79,17 +80,15 @@ No spaces or special characters allowed in Payment and Attendance. +
 Payment accepts "PAID", "NOTPAID" , "PENDING" or "N.A.".
 Attendance accepts "ABSENT", "PRESENT" or "N.A." +
 Payment and attendance are case-insensitive. +
-If any options other than the ones given are entered, the guest will be added if
-other fields are fine, but payment and/or attendance will be blank. +
-Format: `add_guest n/NAME p/PHONE_NUMBER e/EMAIL a/PRESENT pa/PAYMENT [t/TAG]...`
+Format: `add_guest n/NAME p/PHONE_NUMBER e/EMAIL pa/PAYMENT a/ATTENDANCE u/UNIQUE ID [t/TAG]...`
 
 [TIP]
 A guest can have any number of tags (including 0)
 
 Examples:
 
-* `add_guest n/Bob Lee p/81720172 e/boblee@gmail.com a/Absent pa/NOTPAID t/VIP t/Vegetarian`
-* `add_guest n/John Doe p/91028392 e/johndoe@gmail.com a/Present pa/PAID t/Groom t/NonVegetarian`
+* `add_guest n/Bob Lee p/81720172 e/boblee@gmail.com pa/NOTPAID a/Absent u/00001 t/VIP t/Vegetarian`
+* `add_guest n/John Doe p/91028392 e/johndoe@gmail.com pa/PAID a/Present u/708944 t/Groom t/Vegan`
 
 === Listing all guests : `list`
 
@@ -100,10 +99,11 @@ Format: `list`
 
 Edits an existing guest entry in the guest list. +
 No spaces or special characters allowed in Payment and Attendance. +
-Payment accepts "PAID", "NOTPAID" , "PENDING" or "N.A.".
+Payment accepts "PAID", "NOTPAID" , "PENDING" or "N.A.". +
 Attendance accepts "ABSENT", "PRESENT" or "N.A." +
 Payment and attendance are case-insensitive. +
-Format: `edit_guest INDEX [n/NAME] [p/PHONE_NUMBER] [e/EMAIL] [a/PRESENT]  [pa/PAID]
+Unique ID *cannot* be edited. +
+Format: `edit_guest INDEX [n/NAME] [p/PHONE_NUMBER] [e/EMAIL] [pa/PAYMENT] [a/ATTENDANCE]
          [t/GUEST_TYPE] [t/DIET]...`
 
 ****
@@ -117,7 +117,7 @@ Format: `edit_guest INDEX [n/NAME] [p/PHONE_NUMBER] [e/EMAIL] [a/PRESENT]  [pa/P
 Examples:
 
 * `edit_guest 2 n/Bob Chan` +
-Edits the name of the 2nd guest to be `Bob Chan` respectively.
+Edits the name of the 2nd guest to be `Bob Chan`.
 
 === Deleting a guest : `delete_guest`
 
@@ -182,8 +182,7 @@ This will present you with an error in specifying the command, as all your tags 
 
 Find guests whose names, phone numbers and/or email addresses
 contain any of the given keywords. +
-Format: `find n/KEYWORD p/MORE_KEYWORDS e/MORE_KEYWORDS` +
-Example: find n/NAME p/PHONE e/EMAIL
+Format: `find [n/NAME] [p/PHONE] [e/EMAIL]` +
 
 ****
 * The search is case-insensitive. e.g `n/hans` will match `n/Hans`
@@ -191,6 +190,7 @@ Example: find n/NAME p/PHONE e/EMAIL
 * Only names, phone numbers and email addresses are searched, depending on prefixes given.
 * Only full words will be matched e.g. `n/Han` will not match `n/Hans`
 * Guests matching at least one keyword will be returned (i.e. `OR` search). e.g. `n/Hans n/Bo` will return `Hans Gruber`, `Bo Yang`
+* `find` without any keywords will give an error
 ****
 
 Examples:
@@ -207,15 +207,15 @@ You will be shown a list that contains the entries of any guests having the
 name `david` and `edan` +
 * `find n/david edan` +
 You will be shown a list that contains the entries of any guests having the
-name `david` *but not* `edan`
-
+name `david` *but not* `edan` +
+* `find` +
+You will be shown an error message by the system.
 // end::find[]
 
 // tag::import[]
-
 === Import guests from CSV file : `import`
 
-Imports multiple guests with data from a specified CSV file. To create your own CSV file for importing guests, please see <<csvguestlistformat, Section 6: "CSV Guest List Format">> for the accepted format. +
+Import multiple guests with data from a specified CSV file. To create your own CSV file for importing guests, please see <<csvguestlistformat, Section 6: "CSV Guest List Format">> for the accepted format. +
 
 Format: `import FILE_PATH`
 
@@ -270,34 +270,34 @@ You will export the currently filtered guest list entries into a CSV file in the
 
 Marks a guest as present using a unique number assigned to them. This will also change the
 `a/PRESENT`​ tag associated with the guest to Present. +
-Format: `mark [PHONE_NUMBER]`
+Format: `mark [UID]`
 
 [NOTE]
-`PHONE_NUMBER` does not use the p/ prefix. +
-`PHONE_NUMBER` only accepts a string of numbers, other characters will trigger an invalid command format error.
+`UID` does not use the u/ prefix. +
+`UID` only accepts a string of alphanumeric characters, other characters will trigger an invalid command format error.
 
 Examples:
 
-* `mark 81927291` +
-You will mark the guest with phone number `81927291` as present.
+* `mark 708944` +
+You will mark the guest with unique ID `708944` as present.
 // end::mark[]
 
 // tag::unmark[]
 === Marking a guest as absent : `unmark`
 
-Marks a guest as absent using their unique number. This will also change the
+Marks a guest as absent using their unique ID. This will also change the
 `a/PRESENT`​ tag associated with the guest to Absent. +
-Format: `unmark [PHONE_NUMBER]`
+Format: `unmark [UID]`
 
 [NOTE]
-`PHONE_NUMBER` does not use the p/ prefix. +
-`PHONE_NUMBER` only accepts a string of numbers, other characters will trigger an invalid command format error.
+`UID` does not use the u/ prefix. +
+`UID` only accepts a string of alphanumeric characters, other characters will trigger an invalid command format error.
 
 
 Examples:
 
-* `unmark 81927291` +
-You will mark the guest with phone number `81927291` as absent.
+* `unmark 708944` +
+You will mark the guest with phone number `708944` as absent.
 // end::unmark[]
 
 // tag::start_marking[]
@@ -308,12 +308,12 @@ This feature is not implemented yet
 
 Start the mass attendance marking mode. Allows you to mark attendance without using
 the mark prefix. +
-Format: `start_marking [TICKET_ID]...`
+Format: `start_marking [UNIQUE_ID]...`
 
 Examples:
 
-* `start_marking` + `87654321` + `87654322` + `87654323` + `87654324...` +
-You will mark the guests with unique numbers 87654321, 87654322, 87654323, 87654324 as present
+* `start_marking` + `00001` + `00003` + `708944` + `00093...` +
+You will mark the guests with unique ID 00001, 00003, 708944, 00093 as present
 // end::start_marking[]
 
 // tag::stop_marking[]
@@ -573,7 +573,7 @@ There is no need for you to save manually.
 
 *Q*: How do I transfer my data to another Computer? +
 *A*: Install the app in the other computer and overwrite the empty data file it creates with the file that contains the data of your previous guest list. +
-Alternatively, you could export the data from your current computer using the export command. Using this data you can launch the application on a different computer and import the data.
+Alternatively, you can export the data from your current computer using the export command. Using this data, you can launch the application on a different computer and import the data.
 
 *Q*: ​How do I import my existing data on a CSV into the application? +
 *A*: Firstly, create a new event within the application. After this, use the import function and specify the path to the file.
